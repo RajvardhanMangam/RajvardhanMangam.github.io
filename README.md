@@ -52,4 +52,4 @@ src/
   readable with it disabled.
 - Design tokens (color, type) are centralized in `tailwind.config.js` if you
   want to reskin the palette.
-- [ ] need to make the tiles corners into R2/G2 curves 
+- [ ] need to make the tiles corners into R2/G2 curves.
