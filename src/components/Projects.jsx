@@ -1,77 +1,141 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projects } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function ProjectCard({ project, i, total, sectionRef, tileRef, isLast }) {
+const PANEL_STYLES = [
+  "bg-[radial-gradient(circle_at_30%_20%,#2a3140,transparent_60%)]",
+  "bg-[radial-gradient(circle_at_70%_30%,#3a2f18,transparent_60%)]",
+  "bg-[radial-gradient(circle_at_50%_70%,#1f3025,transparent_60%)]",
+  "bg-[radial-gradient(circle_at_20%_80%,#301f30,transparent_60%)]",
+  "bg-[radial-gradient(circle_at_80%_60%,#1f2a30,transparent_60%)]",
+  "bg-[radial-gradient(circle_at_40%_40%,#302518,transparent_60%)]",
+];
+
+function ProjectCard({ project, index }) {
+  const cardRef = useRef(null);
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardRef.current,
+        { scale: 0.94, opacity: 0.5 },
+        {
+          scale: 1,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 85%",
+            end: "top 30%",
+            scrub: true,
+          },
+        }
+      );
+
+      const onMove = (e) => {
+        const rect = panelRef.current.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(panelRef.current, {
+          rotateY: px * 8,
+          rotateX: -py * 8,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      };
+      const onLeave = () => {
+        gsap.to(panelRef.current, { rotateX: 0, rotateY: 0, duration: 0.6, ease: "power3.out" });
+      };
+      const el = panelRef.current;
+      el?.addEventListener("mousemove", onMove);
+      el?.addEventListener("mouseleave", onLeave);
+      return () => {
+        el?.removeEventListener("mousemove", onMove);
+        el?.removeEventListener("mouseleave", onLeave);
+      };
+    }, cardRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div
-      ref={sectionRef}
-      className="relative"
-      style={{ height: isLast ? "100svh" : "160vh" }}
+      className="sticky top-16 sm:top-20"
+      style={{ zIndex: index + 1 }}
     >
       <div
-        ref={tileRef}
-        className="sticky top-0 flex h-[100svh] items-center"
-        style={{ zIndex: i + 1 }}
+        ref={cardRef}
+        className="mx-auto mb-6 w-full max-w-6xl origin-top rounded-2xl border border-base-line bg-base-panel p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)] sm:p-10"
       >
-        <div className="mx-auto w-full max-w-6xl px-6 md:px-10">
-          <div className="rounded-3xl border border-base-line bg-base-panel px-7 py-10 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.6)] md:px-14 md:py-16">
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12">
-              <div className="md:col-span-4">
-                <div className="flex items-baseline gap-3 font-mono text-[11px] tracking-wide text-ink-faint">
-                  <span className="text-signal">{project.index}</span>
-                  <span>/ {String(total).padStart(2, "0")}</span>
-                  <span className="ml-auto md:hidden">{project.period}</span>
-                </div>
-                <h3 className="mt-5 font-display text-3xl font-medium leading-[1.02] tracking-tightest text-ink md:text-[2.6rem]">
-                  {project.name}
-                </h3>
-                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-base-line px-3 py-1 font-mono text-[11px] text-signal">
-                  {project.tag}
-                </div>
-                <div className="mt-6 hidden font-mono text-[11px] tracking-wide text-ink-faint md:block">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+          <div className="flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-xs text-signal">{project.index}</span>
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
                   {project.period}
-                </div>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-8 inline-flex items-center gap-2 font-mono text-[12px] tracking-wide text-ink-dim underline decoration-base-line underline-offset-4 hover:text-signal hover:decoration-signal"
-                >
-                  View source
-                </a>
+                </span>
               </div>
-
-              <div className="md:col-span-8">
-                <p className="text-balance font-body text-lg leading-relaxed text-ink-dim">
-                  {project.summary}
-                </p>
-                <ul className="mt-8 space-y-4 border-t border-base-line pt-8">
-                  {project.points.map((pt) => (
-                    <li
-                      key={pt}
-                      className="flex gap-4 font-body text-[15px] leading-relaxed text-ink-dim"
-                    >
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-signal" />
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {project.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="rounded-full bg-base-panel2 px-3 py-1 font-mono text-[11px] text-ink-faint"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <h3 className="mt-4 font-display text-4xl uppercase leading-[0.95] tracking-tightest text-ink sm:text-5xl">
+                {project.name}
+              </h3>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.25em] text-signal">
+                {project.tag}
+              </p>
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-dim sm:text-base">
+                {project.summary}
+              </p>
+              <ul className="mt-5 space-y-2">
+                {project.points.map((p) => (
+                  <li key={p} className="flex gap-3 text-sm leading-relaxed text-ink-dim">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-signal" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-2">
+              {project.stack.map((s) => (
+                <span
+                  key={s}
+                  className="rounded-full border border-base-line px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faint"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noreferrer"
+              data-cursor="link"
+              className="group mt-7 inline-flex w-fit items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:text-signal"
+            >
+              View Repository
+              <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+                →
+              </span>
+            </a>
+          </div>
+
+          <div
+            ref={panelRef}
+            className={`relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-base-line ${
+              PANEL_STYLES[index % PANEL_STYLES.length]
+            }`}
+            style={{ transformStyle: "preserve-3d", perspective: "800px" }}
+          >
+            <div className="absolute inset-0 flex items-end justify-between p-6">
+              <span className="font-display text-[22vw] leading-none text-ink/5 lg:text-[9vw]">
+                {project.index}
+              </span>
+            </div>
+            <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:28px_28px]" />
           </div>
         </div>
       </div>
@@ -80,58 +144,20 @@ function ProjectCard({ project, i, total, sectionRef, tileRef, isLast }) {
 }
 
 export default function Projects() {
-  const rootRef = useRef(null);
-  const sectionRefs = useRef([]);
-  const tileRefs = useRef([]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const sections = sectionRefs.current.filter(Boolean);
-      const tiles = tileRefs.current.filter(Boolean);
-
-      tiles.forEach((tile, i) => {
-        if (i === tiles.length - 1) return;
-        // Only the tile itself (the rounded card) scales/fades as the next
-        // one covers it -- the outer section stays a plain, static spacer.
-        gsap.to(tile, {
-          scale: 0.92,
-          opacity: 0.35,
-          filter: "blur(3px)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: sections[i + 1],
-            start: "top bottom",
-            end: "top top",
-            scrub: true,
-          },
-        });
-      });
-    }, rootRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="work" ref={rootRef} className="relative bg-base">
-      <div className="mx-auto max-w-6xl px-6 pt-28 md:px-10 md:pt-36">
-        <div className="mb-4 font-mono text-[11px] tracking-wide text-signal">
-          01 — Work
-        </div>
-        <h2 className="max-w-2xl text-balance font-display text-3xl font-medium leading-tight tracking-tightest text-ink md:text-4xl">
-          Six systems, six different kinds of signal.
+    <section id="work" className="relative bg-base px-6 pb-24 pt-24 sm:px-10">
+      <div className="mb-16 flex flex-wrap items-end justify-between gap-4 border-b border-base-line pb-6">
+        <h2 className="font-display text-5xl uppercase leading-none tracking-tightest text-ink sm:text-7xl">
+          Selected <span className="text-signal">Work</span>
         </h2>
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-ink-faint">
+          {String(projects.length).padStart(2, "0")} Projects
+        </span>
       </div>
 
-      <div className="relative mt-16">
-        {projects.map((project, i) => (
-          <ProjectCard
-            key={project.name}
-            project={project}
-            i={i}
-            total={projects.length}
-            isLast={i === projects.length - 1}
-            sectionRef={(el) => (sectionRefs.current[i] = el)}
-            tileRef={(el) => (tileRefs.current[i] = el)}
-          />
+      <div className="relative">
+        {projects.map((p, i) => (
+          <ProjectCard key={p.name} project={p} index={i} />
         ))}
       </div>
     </section>

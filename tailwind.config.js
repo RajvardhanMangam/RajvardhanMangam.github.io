@@ -5,29 +5,32 @@ export default {
     extend: {
       colors: {
         base: {
-          DEFAULT: "#10141C",
-          panel: "#161B25",
-          panel2: "#1C2230",
-          line: "#2A3140",
+          DEFAULT: "#0A0A0B",
+          panel: "#111113",
+          panel2: "#18181B",
+          line: "#2A2A2E",
         },
         ink: {
-          DEFAULT: "#EDEAE1",
-          dim: "#9BA3B4",
-          faint: "#5C6478",
+          DEFAULT: "#F3F1EA",
+          dim: "#9A9A9F",
+          faint: "#57575C",
         },
         signal: {
-          DEFAULT: "#E8873A",
-          dim: "#B96A2C",
-          glow: "#FFB878",
+          DEFAULT: "#D8FF3E",
+          dim: "#A8C72F",
+          glow: "#E8FF8A",
         },
       },
       fontFamily: {
-        display: ["'Space Grotesk'", "sans-serif"],
+        display: ["'Bricolage Grotesque'", "sans-serif"],
         body: ["'Inter'", "sans-serif"],
         mono: ["'IBM Plex Mono'", "monospace"],
       },
       letterSpacing: {
-        tightest: "-0.04em",
+        tightest: "-0.045em",
+      },
+      fontSize: {
+        clamp: "clamp(2.75rem, 8vw, 8.5rem)",
       },
     },
   },
