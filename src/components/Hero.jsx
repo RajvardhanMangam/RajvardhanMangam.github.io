@@ -38,7 +38,7 @@ export default function Hero() {
     <section
       id="top"
       ref={rootRef}
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-base px-6 pb-16 pt-28 sm:px-10"
+      className="relative flex min-h-[68svh] flex-col justify-end overflow-hidden bg-base px-6 pb-8 pt-16 sm:min-h-[72svh] sm:px-10 sm:pb-10 sm:pt-20"
     >
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <HeroField />
@@ -54,7 +54,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <h1 className="relative z-10 mt-6 font-display font-semibold uppercase leading-[0.86] tracking-tightest text-ink">
+      <h1 className="relative z-10 mt-4 font-display font-semibold uppercase leading-[0.86] tracking-tightest text-ink">
         {lines.map((line, i) => (
           <span key={line} className="block overflow-hidden">
             <span
@@ -67,7 +67,7 @@ export default function Hero() {
         ))}
       </h1>
 
-      <div className="hero-scroll relative z-10 mt-10 flex flex-col gap-4">
+      <div className="hero-scroll relative z-10 mt-7 flex flex-col gap-4">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-dim sm:text-sm">
           Geospatial AI <span className="text-signal">·</span> Applied Machine Learning{" "}
           <span className="text-signal">·</span> Systems Engineering

@@ -66,22 +66,22 @@ export default function Projects() {
         </span>
       </div>
 
-      <div className="work-fade grid gap-6 overflow-visible md:grid-cols-[220px_1fr] md:items-center md:gap-10">
+      <div className="work-fade grid gap-6 overflow-visible md:grid-cols-[132px_1fr] md:items-center md:gap-6">
         {/* macOS-style dock, left side — hover a number to see the project name */}
         <Dock
           items={dockItems}
           active={active}
           orientation="y"
-          className="gap-3 rounded-2xl border border-base-line bg-base-panel/80 p-3 backdrop-blur"
-          renderItem={(p, isActive) => {
+          className="w-fit gap-2 rounded-2xl border border-base-line bg-base-panel/80 p-2 backdrop-blur"
+          renderItem={(p, isActive, i) => {
             const s = shapeFor(p.tag);
             return (
               <button
                 data-cursor="link"
-                onClick={() => select(projects.indexOf(p))}
+                onClick={() => select(i)}
                 aria-current={isActive}
                 aria-label={p.name}
-                className="group relative flex h-10 w-10 items-center justify-center rounded-full border font-mono text-[11px] transition-colors duration-200"
+                className="group relative flex h-9 w-9 items-center justify-center rounded-full border font-mono text-[10px] transition-colors duration-200"
                 style={{
                   borderColor: isActive ? s.color : "rgba(255,255,255,0.16)",
                   backgroundColor: isActive ? `${s.color}22` : "rgba(255,255,255,0.04)",
@@ -129,7 +129,7 @@ export default function Projects() {
                 {project.period}
               </p>
 
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-ink sm:text-base">
+              <p className="mt-5 max-w-md text-sm leading-relaxed !text-ink sm:text-base">
                 {project.summary}
               </p>
 
@@ -148,7 +148,7 @@ export default function Projects() {
             <div className="flex flex-col justify-center">
               <ul className="space-y-3">
                 {project.points.map((pt) => (
-                  <li key={pt} className="flex gap-3 text-sm leading-relaxed text-ink">
+                  <li key={pt} className="flex gap-3 text-sm leading-relaxed !text-ink">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full" style={{ backgroundColor: shape.color }} />
                     {pt}
                   </li>
