@@ -10,8 +10,6 @@ export default function Cursor() {
 
     const dot = dotRef.current;
     const ring = ringRef.current;
-    let ringX = 0;
-    let ringY = 0;
 
     const onMove = (e) => {
       gsap.set(dot, { x: e.clientX, y: e.clientY });

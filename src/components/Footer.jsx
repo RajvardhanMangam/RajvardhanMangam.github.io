@@ -60,13 +60,6 @@ export default function Footer() {
           >
             LinkedIn
           </a>
-          <a
-            href={`tel:${profile.phone.replace(/\s/g, "")}`}
-            data-cursor="link"
-            className="font-mono text-xs uppercase tracking-[0.2em] text-ink-dim transition-colors hover:text-signal"
-          >
-            {profile.phone}
-          </a>
         </div>
       </div>
 

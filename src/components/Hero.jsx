@@ -32,7 +32,7 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  const lines = ["Systems.", "Signal.", "Shipped."];
+  const lines = ["Rajvardhan", "Mangam."];
 
   return (
     <section
@@ -67,11 +67,17 @@ export default function Hero() {
         ))}
       </h1>
 
-      <div className="hero-scroll relative z-10 mt-10 flex items-center gap-3 self-start">
-        <span className="h-10 w-px animate-pulse bg-signal" />
-        <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink-faint">
-          Scroll to explore
-        </span>
+      <div className="hero-scroll relative z-10 mt-10 flex flex-col gap-4">
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-ink-dim sm:text-sm">
+          Geospatial AI <span className="text-signal">·</span> Applied Machine Learning{" "}
+          <span className="text-signal">·</span> Systems Engineering
+        </p>
+        <div className="flex items-center gap-3">
+          <span className="h-10 w-px animate-pulse bg-signal" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink-faint">
+            Scroll to explore
+          </span>
+        </div>
       </div>
     </section>
   );

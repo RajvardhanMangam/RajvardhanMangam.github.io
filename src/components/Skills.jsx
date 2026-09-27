@@ -5,6 +5,8 @@ import { skillGroups } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const COLORS = ["#D8FF3E", "#7FE0FF", "#E893FF", "#8AE8C0", "#FFB86B", "#9BA8FF"];
+
 export default function Skills() {
   const rootRef = useRef(null);
 
@@ -39,27 +41,44 @@ export default function Skills() {
         </span>
       </div>
 
-      <div className="grid gap-px overflow-hidden rounded-xl border border-base-line bg-base-line sm:grid-cols-2 lg:grid-cols-3">
-        {skillGroups.map((g) => (
-          <div key={g.label} className="skill-card bg-base-panel p-7">
-            <div className="flex items-baseline justify-between">
-              <h3 className="font-display text-xl uppercase tracking-tight text-ink">
-                {g.label}
-              </h3>
-              <span className="font-mono text-xs text-signal">{g.coord}</span>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {g.items.map((item) => (
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-base-line bg-base-line sm:grid-cols-2 lg:grid-cols-3">
+        {skillGroups.map((g, i) => {
+          const color = COLORS[i % COLORS.length];
+          return (
+            <div key={g.label} className="skill-card flex h-full flex-col bg-base-panel p-7">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="font-mono text-xs" style={{ color }}>
+                    {g.coord}
+                  </span>
+                  <h3 className="mt-2 font-display text-xl uppercase leading-tight tracking-tight text-ink">
+                    {g.label}
+                  </h3>
+                </div>
                 <span
-                  key={item}
-                  className="rounded-full border border-base-line px-3 py-1 text-xs text-ink-dim"
-                >
-                  {item}
-                </span>
-              ))}
+                  className="mt-1 h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: color }}
+                  aria-hidden="true"
+                />
+              </div>
+
+              <p className="mt-2 text-xs leading-relaxed text-ink-faint">{g.blurb}</p>
+
+              <div className="mt-6 flex flex-1 flex-wrap content-start gap-2 border-t border-base-line/60 pt-5">
+                {g.items.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-base-line px-3 py-1 text-[11px] leading-none text-ink-dim transition-colors duration-200 hover:border-current"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = color)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

@@ -1,10 +1,10 @@
 export const profile = {
   name: "Rajvardhan Mangam",
+  navName: "Mangam Rajvardhan",
   id: "CS25M107",
   role: "M.Tech, Computer Science & Engineering",
   institute: "Indian Institute of Technology, Tirupati",
   email: "cs25m107@iittp.ac.in",
-  phone: "+91 86889 05174",
   linkedin: "https://www.linkedin.com/in/yamaraja/",
   github: "https://github.com/RajvardhanMangam",
   location: "Tirupati, Andhra Pradesh, IN",
@@ -16,25 +16,21 @@ export const education = [
     range: "2025 — 2027",
     degree: "M.Tech, Computer Science & Engineering",
     institute: "Indian Institute of Technology, Tirupati",
-    metric: "7.72 CGPA",
   },
   {
     range: "2020 — 2024",
     degree: "B.Tech, Chemical Engineering",
     institute: "JNTUK University College of Engineering, Kakinada",
-    metric: "7.55 CGPA",
   },
   {
     range: "2020",
     degree: "Intermediate Public Examination",
     institute: "BIEAP Board",
-    metric: "9.42",
   },
   {
     range: "2018",
     degree: "Secondary School Certificate",
     institute: "BSEAP Board",
-    metric: "9.8",
   },
 ];
 
@@ -42,31 +38,37 @@ export const skillGroups = [
   {
     label: "Languages",
     coord: "01",
+    blurb: "Core languages for systems, scripting, and research code.",
     items: ["C++", "Python", "Rust", "Java", "JavaScript", "C"],
   },
   {
     label: "Deep Learning",
     coord: "02",
+    blurb: "Model architectures and training techniques used across projects.",
     items: ["CNNs", "LSTMs", "NAFNet", "Transformers", "Transfer Learning", "PyTorch"],
   },
   {
     label: "AI & ML Systems",
     coord: "03",
+    blurb: "Applied ML surfaces — from vision to language to inference.",
     items: ["Computer Vision", "Semantic Segmentation", "NLP", "LLMs", "Prompt Engineering", "ONNX Runtime"],
   },
   {
     label: "Geospatial",
     coord: "04",
+    blurb: "Tools for working with satellite and remote-sensing data.",
     items: ["Remote Sensing", "GIS", "Rasterio", "GDAL", "GeoTIFF Processing", "Geospatial Analytics"],
   },
   {
     label: "Systems & Hardware",
     coord: "05",
+    blurb: "Low-level and infrastructure work beyond the application layer.",
     items: ["Linux", "ChampSim", "Hardware Prefetching", "Docker", "Asynchronous Processing", "Microservices"],
   },
   {
     label: "Web & Backend",
     coord: "06",
+    blurb: "The stack behind every project's dashboards and APIs.",
     items: ["FastAPI", "React.js", "Node.js", "Express.js", "REST APIs", "MongoDB"],
   },
 ];
@@ -166,16 +168,12 @@ export const achievements = [
   {
     title: "International Winner — Climate Change Ideathon 2025",
     detail:
-      "Proposed an AI-driven solution for climate resilience and sustainable development among participants from multiple countries.",
+      "Won the Public Choice Award for Ecothereum, an AI-driven climate-resilience proposal, among participants from multiple countries.",
   },
   {
-    title: "5th Position — GeoIntel MoPR Hackathon",
+    title: "Prize Winner — GeoIntel Hackathon, TIH IIT Tirupati",
     detail:
-      "Developed AI-driven geospatial intelligence solutions using satellite imagery and remote sensing data.",
-  },
-  {
-    title: "Public Choice Award — Ecothereum",
-    detail: "Recognized by public vote for a climate-resilience proposal built on an AI decision layer.",
+      "Awarded a prize for building AI-driven geospatial intelligence solutions using satellite imagery and remote sensing data, at a hackathon conducted by the Technology Innovation Hub at IIT Tirupati.",
   },
 ];
 

@@ -56,11 +56,8 @@ export default function About() {
 
         <div className="flex flex-col divide-y divide-base-line border-y border-base-line">
           {education.map((e) => (
-            <div
-              key={e.degree}
-              className="edu-row grid grid-cols-[auto_1fr_auto] items-baseline gap-4 py-6 sm:gap-8"
-            >
-              <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-faint">
+            <div key={e.degree} className="edu-row flex items-baseline gap-5 py-6 sm:gap-8">
+              <span className="w-20 shrink-0 font-mono text-[11px] uppercase tracking-[0.15em] text-ink-faint sm:w-28">
                 {e.range}
               </span>
               <div>
@@ -69,7 +66,6 @@ export default function About() {
                 </h4>
                 <p className="mt-1 text-xs text-ink-dim sm:text-sm">{e.institute}</p>
               </div>
-              <span className="font-mono text-sm text-signal">{e.metric}</span>
             </div>
           ))}
         </div>

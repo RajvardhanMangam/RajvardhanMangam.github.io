@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import Dock from "./Dock";
 import { profile } from "../data";
 
 const links = [
-  { label: "Work", href: "#work", n: "01" },
-  { label: "About", href: "#about", n: "02" },
-  { label: "Arsenal", href: "#skills", n: "03" },
-  { label: "Log", href: "#log", n: "04" },
-  { label: "Contact", href: "#contact", n: "05" },
+  { key: "work", label: "Work", href: "#work", n: "01" },
+  { key: "about", label: "About", href: "#about", n: "02" },
+  { key: "skills", label: "Arsenal", href: "#skills", n: "03" },
+  { key: "log", label: "Log", href: "#log", n: "04" },
+  { key: "contact", label: "Contact", href: "#contact", n: "05" },
 ];
 
 export default function Nav() {
@@ -28,7 +29,7 @@ export default function Nav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-40 flex items-center justify-between px-6 transition-all duration-500 sm:px-10 ${
-          scrolled ? "py-4" : "py-6"
+          scrolled ? "py-3" : "py-5"
         }`}
       >
         <a
@@ -38,24 +39,29 @@ export default function Nav() {
             e.preventDefault();
             go("#top");
           }}
-          className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-ink"
+          className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-ink"
         >
-          RM<span className="text-signal">.</span>
+          {profile.navName}
+          <span className="text-signal">.</span>
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
+        {/* Desktop nav as a horizontal GSAP dock */}
+        <Dock
+          items={links}
+          active={-1}
+          orientation="x"
+          className="hidden gap-1 md:flex"
+          renderItem={(l) => (
             <button
-              key={l.href}
               data-cursor="link"
               onClick={() => go(l.href)}
-              className="group flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-dim transition-colors hover:text-ink"
+              className="flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-dim transition-colors duration-200 hover:text-ink"
             >
               <span className="text-signal">{l.n}</span>
               {l.label}
             </button>
-          ))}
-        </div>
+          )}
+        />
 
         <button
           data-cursor="link"
