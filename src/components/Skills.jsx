@@ -1,76 +1,84 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { skillGroups } from "../data";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const COLORS = ["#D8FF3E", "#7FE0FF", "#E893FF", "#8AE8C0", "#FFB86B", "#9BA8FF"];
 
 export default function Skills() {
   const rootRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from("[data-skill-card]", {
-        opacity: 0,
-        y: 20,
-        duration: 0.6,
-        ease: "power3.out",
-        stagger: 0.06,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top 75%",
-        },
+      gsap.utils.toArray(".skill-card").forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            delay: (i % 3) * 0.06,
+            ease: "power3.out",
+            scrollTrigger: { trigger: card, start: "top 90%" },
+          }
+        );
       });
     }, rootRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={rootRef} className="border-b border-base-line bg-base">
-      <div className="mx-auto max-w-6xl px-6 py-28 md:px-10 md:py-36">
-        <div className="mb-14 flex items-end justify-between gap-6">
-          <div>
-            <div className="mb-6 font-mono text-[11px] tracking-wide text-signal">
-              03 — Arsenal
-            </div>
-            <h2 className="text-balance font-display text-3xl font-medium leading-tight tracking-tightest text-ink md:text-4xl">
-              Working vocabulary
-            </h2>
-          </div>
-          <p className="hidden max-w-xs text-right font-body text-sm leading-relaxed text-ink-faint md:block">
-            Grouped by where each tool actually gets used, not alphabetized
-            for show.
-          </p>
-        </div>
+    <section id="skills" ref={rootRef} className="relative bg-base px-6 py-24 sm:px-10">
+      <div className="mb-14 flex flex-wrap items-end justify-between gap-4 border-b border-base-line pb-6">
+        <h2 className="font-display text-5xl uppercase leading-none tracking-tightest text-ink sm:text-7xl">
+          The <span className="text-signal">Arsenal</span>
+        </h2>
+        <span className="font-mono text-xs uppercase tracking-[0.25em] text-ink-faint">
+          {String(skillGroups.length).padStart(2, "0")} Categories
+        </span>
+      </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {skillGroups.map((group) => (
-            <div
-              key={group.label}
-              data-skill-card
-              className="group rounded-3xl border border-base-line bg-base-panel p-7 transition-colors hover:bg-base-panel2 hover:border-base-line/80"
-            >
-              <div className="mb-5 flex items-center justify-between">
-                <h3 className="font-display text-base text-ink">
-                  {group.label}
-                </h3>
-                <span className="font-mono text-[11px] text-ink-faint">
-                  {group.coord}
-                </span>
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-base-line bg-base-line sm:grid-cols-2 lg:grid-cols-3">
+        {skillGroups.map((g, i) => {
+          const color = COLORS[i % COLORS.length];
+          return (
+            <div key={g.label} className="skill-card flex h-full flex-col bg-base-panel p-7">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="font-mono text-xs" style={{ color }}>
+                    {g.coord}
+                  </span>
+                  <h3 className="mt-2 font-display text-xl uppercase leading-tight tracking-tight text-ink">
+                    {g.label}
+                  </h3>
+                </div>
+                <span
+                  className="mt-1 h-2 w-2 shrink-0 rounded-full"
+                  style={{ backgroundColor: color }}
+                  aria-hidden="true"
+                />
               </div>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
+
+              <p className="mt-2 text-xs leading-relaxed text-ink-faint">{g.blurb}</p>
+
+              <div className="mt-6 flex flex-1 flex-wrap content-start gap-2 border-t border-base-line/60 pt-5">
+                {g.items.map((item) => (
                   <span
                     key={item}
-                    className="rounded-full border border-base-line px-3 py-1 font-mono text-[11px] text-ink-dim group-hover:border-base-line"
+                    className="rounded-full border border-base-line px-3 py-1 text-[11px] leading-none text-ink-dim transition-colors duration-200 hover:border-current"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = color)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "")}
                   >
                     {item}
                   </span>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );
